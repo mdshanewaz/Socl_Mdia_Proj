@@ -6,13 +6,13 @@
 
 {% block css_block %}
 <style>
-    .signup_form{
+    .login_form{
         width: 550px;
         border: 1px solid #ccc;
         padding: 40px;
     }
 
-    .log_in{
+    .sign_up{
         width: 550px;
         border: 1px solid #ccc;
         padding: 20px;
@@ -22,17 +22,17 @@
 
 {% block body_block %}
 <center>
-    <div class="signup_form">
+    <div class="login_form">
         <h3>Signup to see photos form your friends.</h3>
         <form action="" method="POST">
             {{ form|crispy }}
             {% csrf_token %}
-            <button class="btn btn-success" type="submit" style="width: 100%;">SIGNUP</button>
+            <button class="btn btn-success" type="submit" style="width: 100%;">LOGIN</button>
         </form>
     </div>
     <br>
-    <div class="log_in">
-        <p>Have an account <a href="{% url 'Login_App:login' %}">Lognin</a></p>
+    <div class="sign_up">
+        <p>Do not have any account? <a href="{% url 'Login_App:signup' %}">Signup</a></p>
     </div>
 </center>
 
