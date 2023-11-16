@@ -19,4 +19,4 @@ class EditProfile(forms.ModelForm):
 
     class Meta:
         model = UserprofileModel
-        exclude = ('user', )
+        exclude = ('user',)

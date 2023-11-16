@@ -18,7 +18,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             registered = True
-            user_profile = UserProfileModel(user=user)
+            user_profile = UserprofileModel(user=user)
             user_profile.save()
             
             return HttpResponseRedirect(reverse('Login_App:login'))
@@ -56,11 +56,17 @@ def editprofile_view(request):
         if form.is_valid():
             form.save(commit=True)
             form = EditProfile(instance=current_user)
+            return HttpResponseRedirect(reverse('Login_App:profile'))
 
     return render(request, 'Login_App/profile.html', context={'title':'Profile', 'form':form})
 
 
 @login_required
 def logout_view(request):
-    logout(request);
+    logout(request)
     return HttpResponseRedirect(reverse('Login_App:login'))
+
+
+@login_required
+def profile_view(request):
+    return render(request, 'Login_App/user.html', context={'title':'Profile'})
