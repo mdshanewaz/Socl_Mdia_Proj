@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
+from Posts_App.forms import PostForm
 
 # Create your views here.
 
@@ -69,4 +70,12 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'Login_App/user.html', context={'title':'Profile'})
+    form = PostForm
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid:
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return HttpResponseRedirect(reverse('Posts_App:home')) 
+    return render(request, 'Login_App/user.html', context={'title':'Profile', 'form': form})

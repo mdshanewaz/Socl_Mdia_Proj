@@ -2,6 +2,22 @@
 
 {% block title_block %}{{ user.user_profile.full_name }} (@{{ user.username }}) {{ title }}{% endblock %}
 
+{% block css_block %}
+    <style>
+        .crop{
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .crop img{
+            width: 400px;
+            height: 400px;
+            margin: -75px 0 0 -100px;
+        }
+    </style>
+{% endblock %}
+
 {% block body_block %}
 <div class="row">
     <div class="col-sm-4">
@@ -18,7 +34,41 @@
         <br>
         <h4>{{ user.user_profile.full_name }}</h4>
         <h6>{{ user.user_profile.description|linebreaks }}</h6>
-
+        <hr>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Create Post
+        </button>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create a new post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                        <button class="btn btn-success" type="submit">POST</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<br>
+<div class="row">
+    {% for post in user.post.all %}
+    <div class="crop">
+        <img src="/media/{{ post.post_image }}" alt="" title="{{ post.caption }}">
+    </div>
+    {% endfor %}
+</div>
+<br>
 {% endblock %}
