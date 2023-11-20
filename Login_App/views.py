@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
-from Login_App.models import UserprofileModel
+from Login_App.models import UserprofileModel, FollowerModel
 from Login_App.forms import CreateUserForm, EditProfile
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
@@ -79,3 +80,30 @@ def profile_view(request):
             post.save()
             return HttpResponseRedirect(reverse('Posts_App:home')) 
     return render(request, 'Login_App/user.html', context={'title':'Profile', 'form': form})
+
+@login_required
+def user_view(request, username):
+    user_other = User.objects.get(username=username)
+    already_followed = FollowerModel.objects.filter(follower=request.user, following=user_other)
+    if user_other == request.user:
+        return HttpResponseRedirect(reverse('Login_App:profile'))
+    return render(request, 'Login_App/user_other.html', context={'user_other':user_other, 'title': username, 'already_followed':already_followed})
+
+@login_required
+def follow_view(request, username):
+    following_user = User.objects.get(username=username)
+    follower_user = request.user
+    already_followed = FollowerModel.objects.filter(follower=follower_user, following=following_user)
+
+    if not already_followed:
+        followed_user = FollowerModel(follower=follower_user, following=following_user)
+        followed_user.save()
+    return HttpResponseRedirect(reverse('Login_App:user', kwargs={'username':username}))
+
+@login_required
+def unfollow_view(request, username):
+    following_user = User.objects.get(username=username)
+    follower_user = request.user
+    already_followed = FollowerModel.objects.filter(follower=follower_user, following=following_user)
+    already_followed.delete()
+    return HttpResponseRedirect(reverse('Login_App:user', kwargs={'username':username}))

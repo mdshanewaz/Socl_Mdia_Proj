@@ -1,6 +1,6 @@
 {% extends 'navbar.html' %}
 
-{% block title_block %}{{ user.user_profile.full_name }} (@{{ user.username }}) {{ title }}{% endblock %}
+{% block title_block %}{{ user.user_profile.full_name }} @{{ user.username }} {{ title }}{% endblock %}
 
 {% block css_block %}
     <style>
@@ -30,7 +30,7 @@
     <div class="col-sm-8">
         <h3>{{ user.username }} &nbsp; <a class="btn btn-primary" href="{% url 'Login_App:edit' %}">Edit profile</a></h3>
         <br>
-        <h4>{{ user.post.count }} posts &nbsp; &nbsp; {{ user.following.count }} following &nbsp; &nbsp; {{ user.follower.count }} followers</h4>
+        <h4>{{ user.post.count }} posts &nbsp; &nbsp; {{ user.following.count }} followers &nbsp; &nbsp; {{ user.follower.count }} following</h4>
         <br>
         <h4>{{ user.user_profile.full_name }}</h4>
         <h6>{{ user.user_profile.description|linebreaks }}</h6>
@@ -62,6 +62,7 @@
         </div>
     </div>
 </div>
+<br>
 <br>
 <div class="row">
     {% for post in user.post.all %}
