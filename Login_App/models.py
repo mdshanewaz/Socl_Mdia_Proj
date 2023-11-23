@@ -17,7 +17,7 @@ class UserprofileModel(models.Model):
     
 
 class FollowerModel(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
-    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower') # Who is following me
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following') # wWhom I'm following
     created_date = models.DateTimeField(auto_now_add=True)
 
