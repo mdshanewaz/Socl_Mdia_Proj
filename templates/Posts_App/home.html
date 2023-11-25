@@ -35,11 +35,22 @@
                             {% else %}
                             <img src="/media/avatar.jpg" width="50px" class="rounded-circle" alt="">
                             {% endif %}
-                        <a href="{% url 'Login_App:user' username=post.author %}">{{ post.author }}</a>
+                            <a href="{% url 'Login_App:user' username=post.author %}">{{ post.author }}</a>
                         </h4>
+                        <hr>
                         <br>
                         <h5>{{ post.caption }}</h5>
                         <img src="/media/{{ post.post_image }}" width='50%' alt="">
+
+                        <div style="padding: 20px;">
+                            <h6>{{ post.like_post.count }} Likes</h6>
+                            {% if post.pk in liked_post_list %}
+                            <a href="{% url 'Posts_App:unlike' pk=post.pk %}"><i class="fa-solid fa-heart" style="font-size: 36px;"></i></a>
+                            {% else %}
+                            <a href="{% url 'Posts_App:like' pk=post.pk %}"><i class="fa-regular fa-heart" style="font-size: 36px;"></i></a>
+                            {% endif %}
+                            
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
